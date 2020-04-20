@@ -6,6 +6,7 @@ import (
 	"github.com/mitchellh/go-ps"
 	"log"
 	"os"
+	"os/user"
 	"path"
 	"strings"
 	"time"
@@ -72,12 +73,12 @@ type config struct {
 }
 
 func readConfig() *config {
-	homeDir, err := os.UserHomeDir()
+	u, err := user.Current()
 	if err != nil {
-		log.Panicln(err)
+		log.Fatal(err)
 	}
 
-	file, err := os.Open(path.Join(homeDir, ".config", "fah-pauser.yml"))
+	file, err := os.Open(path.Join(u.HomeDir, ".config", "fah-pauser.yml"))
 	if err != nil {
 		log.Panicln(err)
 	}
