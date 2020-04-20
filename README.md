@@ -1,14 +1,9 @@
-Pauses Folding@home while specified program is running.
+Pauses Folding@home when a specified program is running. This allows FAH to run "While I'm working" but also makes FAH stop for resource-intensive apps.
+
+Create `~/.config/fah-pauser.yml` (or `%userprofile%\.config\fah-pauser.yml`) and list program names that should pause FAH when running.
 
 ```
-go get -ldflags -Hwindowsgui github.com/MakotoE/fah-pauser
+PauseOn:
+- devenv.exe
+- rFactor2.exe
 ```
-
-```
-usage: fah-pauser <path>
-Stops Folding@home when <path> is running
-```
-
-After `go get`ing, edit your Shortcuts and .desktop files to prefix `fah-pauser` before the command.
-
-FYI: Windows taskbar shortcuts are located in `%AppData%\Microsoft\Internet Explorer\Quick Launch\User Pinned\TaskBar`
