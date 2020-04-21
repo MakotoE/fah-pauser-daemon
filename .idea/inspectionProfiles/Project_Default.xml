@@ -14,8 +14,8 @@
         <method importPath="strings" receiver="*Builder" name="WriteRune" />
         <method importPath="math/rand" receiver="*Rand" name="Read" />
         <method importPath="github.com/reiver/go-telnet" receiver="*Conn" name="Close" />
-        <method importPath="github.com/MakotoE/fah-pauser" receiver="*API" name="Close" />
-        <method importPath="github.com/MakotoE/fah-pauser" receiver="*API" name="Unpause" />
+        <method importPath="github.com/MakotoE/fah-pauser-daemon" receiver="*API" name="Close" />
+        <method importPath="github.com/MakotoE/fah-pauser-daemon" receiver="*API" name="Unpause" />
         <method importPath="github.com/MakotoE/go-fahapi" receiver="*API" name="Close" />
         <method importPath="github.com/MakotoE/go-fahapi" receiver="*API" name="UnpauseAll" />
       </methods>

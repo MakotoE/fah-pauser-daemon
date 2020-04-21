@@ -79,7 +79,7 @@ func readConfig() *config {
 		log.Fatal(err)
 	}
 
-	file, err := os.Open(path.Join(u.HomeDir, ".config", "fah-pauser.yml"))
+	file, err := os.Open(path.Join(u.HomeDir, ".config", "fah-pauser-daemon.yml"))
 	if err != nil {
 		log.Panicln(err)
 	}

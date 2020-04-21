@@ -1,4 +1,4 @@
-module github.com/MakotoE/fah-pauser
+module github.com/MakotoE/fah-pauser-daemon
 
 go 1.13
 
