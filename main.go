@@ -2,6 +2,7 @@ package main
 
 import (
 	"flag"
+	"github.com/MakotoE/go-fahapi"
 	"github.com/go-yaml/yaml"
 	"github.com/mitchellh/go-ps"
 	"log"
@@ -19,14 +20,14 @@ func main() {
 
 	config := readConfig()
 
-	api, err := NewAPI()
+	api, err := fahapi.NewAPI()
 	if err != nil {
 		log.Panicln(err)
 	}
 
 	defer api.Close()
 
-	defer api.Unpause() // Make sure FAH is unpaused in case of panic
+	defer api.UnpauseAll() // Make sure FAH is unpaused in case of panic
 
 	paused := false
 
@@ -46,7 +47,7 @@ func main() {
 
 		if containsProcess(processes, config.PauseOn) {
 			if !paused { // Found process; fah is unpaused
-				if err := api.Pause(); err != nil {
+				if err := api.PauseAll(); err != nil {
 					log.Panicln(err)
 				}
 				paused = true
@@ -55,7 +56,7 @@ func main() {
 				}
 			}
 		} else if paused { // No process found; fah is paused
-			if err := api.Unpause(); err != nil {
+			if err := api.UnpauseAll(); err != nil {
 				log.Panicln(err)
 			}
 			paused = false
