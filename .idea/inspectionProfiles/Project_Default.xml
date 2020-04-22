@@ -18,6 +18,7 @@
         <method importPath="github.com/MakotoE/fah-pauser-daemon" receiver="*API" name="Unpause" />
         <method importPath="github.com/MakotoE/go-fahapi" receiver="*API" name="Close" />
         <method importPath="github.com/MakotoE/go-fahapi" receiver="*API" name="UnpauseAll" />
+        <method importPath="os" receiver="*File" name="Close" />
       </methods>
     </inspection_tool>
     <inspection_tool class="SpellCheckingInspection" enabled="true" level="TYPO" enabled_by_default="true">

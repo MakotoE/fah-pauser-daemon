@@ -83,6 +83,7 @@ func readConfig() *config {
 	if err != nil {
 		log.Panicln(err)
 	}
+	defer file.Close()
 
 	result := &config{}
 	if err := yaml.NewDecoder(file).Decode(result); err != nil {
