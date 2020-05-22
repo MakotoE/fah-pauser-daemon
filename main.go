@@ -20,7 +20,7 @@ func main() {
 
 	config := readConfig()
 
-	api, err := fahapi.NewAPI()
+	api, err := fahapi.NewAPI(fahapi.DefaultAddr)
 	if err != nil {
 		log.Panicln(err)
 	}

@@ -3,7 +3,7 @@ module github.com/MakotoE/fah-pauser-daemon
 go 1.13
 
 require (
-	github.com/MakotoE/go-fahapi v0.0.0-20200421182605-031510bfe5fc
+	github.com/MakotoE/go-fahapi v0.0.0-20200521210250-61fc71d0e1eb
 	github.com/go-yaml/yaml v2.1.0+incompatible
 	github.com/mitchellh/go-ps v1.0.0
 	github.com/niemeyer/pretty v0.0.0-20200227124842-a10e7caefd8e // indirect
