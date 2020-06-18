@@ -1,6 +1,7 @@
 package main
 
 import (
+	"encoding/json"
 	"flag"
 	"github.com/MakotoE/go-fahapi"
 	"github.com/go-yaml/yaml"
@@ -9,25 +10,22 @@ import (
 	"os"
 	"os/user"
 	"path"
-	"strings"
 	"time"
 )
 
-var verbose = flag.Bool("v", false, "verbose")
+var verbose = false
 
 func main() {
+	flag.BoolVar(&verbose, "v", false, "verbose")
 	flag.Parse()
 
 	config := readConfig()
 
-	api, err := fahapi.NewAPI(fahapi.DefaultAddr)
+	api, err := fahapi.Dial(fahapi.DefaultAddr)
 	if err != nil {
 		log.Panicln(err)
 	}
-
 	defer api.Close()
-
-	defer api.UnpauseAll() // Make sure FAH is unpaused in case of panic
 
 	paused := false
 
@@ -36,13 +34,16 @@ func main() {
 		if err != nil {
 			log.Panicln(err)
 		}
-		if *verbose {
-			b := strings.Builder{}
-			b.WriteString("current processes:\n")
+		if verbose {
+			var processStr []string
 			for _, process := range processes {
-				b.WriteString(process.Executable() + "\n")
+				processStr = append(processStr, process.Executable())
 			}
-			log.Printf(b.String())
+			s, err := json.Marshal(processStr)
+			if err != nil {
+				panic(err)
+			}
+			log.Printf("current processes: %s\n", string(s))
 		}
 
 		if containsProcess(processes, config.PauseOn) {
@@ -51,8 +52,8 @@ func main() {
 					log.Panicln(err)
 				}
 				paused = true
-				if *verbose {
-					log.Println("paused")
+				if verbose {
+					log.Println("pausing fah")
 				}
 			}
 		} else if paused { // No process found; fah is paused
@@ -60,8 +61,8 @@ func main() {
 				log.Panicln(err)
 			}
 			paused = false
-			if *verbose {
-				log.Println("unpaused")
+			if verbose {
+				log.Println("unpausing fah")
 			}
 		}
 
