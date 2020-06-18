@@ -6,10 +6,13 @@ import (
 	"github.com/MakotoE/go-fahapi"
 	"github.com/go-yaml/yaml"
 	"github.com/mitchellh/go-ps"
+	"github.com/pkg/errors"
 	"log"
+	"net"
 	"os"
 	"os/user"
 	"path"
+	"syscall"
 	"time"
 )
 
@@ -21,11 +24,27 @@ func main() {
 
 	config := readConfig()
 
-	api, err := fahapi.Dial(fahapi.DefaultAddr)
-	if err != nil {
-		log.Panicln(err)
+	var api *fahapi.API
+	for {
+		a, err := fahapi.Dial(fahapi.DefaultAddr)
+		if err != nil {
+			if e, ok := errors.Cause(err).(*net.OpError); ok {
+				if syscallErr, ok := e.Err.(*os.SyscallError); ok && syscallErr.Err == syscall.ECONNREFUSED {
+					log.Println("connection refused; trying again after a bit")
+					time.Sleep(time.Second * 30)
+					continue
+				}
+			}
+			log.Panicln(err)
+		}
+		api = a
+		break
 	}
 	defer api.Close()
+
+	if err := api.UnpauseAll(); err != nil {
+		log.Panicln(err)
+	}
 
 	paused := false
 
@@ -41,7 +60,7 @@ func main() {
 			}
 			s, err := json.Marshal(processStr)
 			if err != nil {
-				panic(err)
+				log.Panicln(err)
 			}
 			log.Printf("current processes: %s\n", string(s))
 		}
