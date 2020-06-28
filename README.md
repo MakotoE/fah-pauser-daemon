@@ -12,4 +12,6 @@ PauseOn:
 - rFactor2.exe
 ```
 
-The system processes list is polled once every five minutes.
+The system processes list is polled once every two minutes.
+
+[rust-fah-pauser](https://github.com/MakotoE/rust-fah-pauser) is an improved version that uses low-level APIs and refreshes every minute.
